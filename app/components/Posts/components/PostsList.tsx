@@ -7,9 +7,12 @@ import Link from 'next/link';
 
 export interface PostsListProps {
   posts: ExtendedPostData[];
+  disableInteraction?: boolean;
 }
 
-const PostsList = ({ posts }: PostsListProps) => {
+const PostsList = ({ posts, disableInteraction = false }: PostsListProps) => {
+  console.log('disableInteraction', disableInteraction);
+
   return (
     <>
       {posts.map((post) => (
@@ -20,7 +23,14 @@ const PostsList = ({ posts }: PostsListProps) => {
             'last:mb-0'
           )}
         >
-          <Link href={`/posts/${post.id}`}>
+          <Link
+            href={`/posts/${post.id}`}
+            onClick={(e: React.MouseEvent<HTMLElement>) => {
+              if (disableInteraction) {
+                e.preventDefault();
+              }
+            }}
+          >
             <h2
               className={classNames(
                 'text-lg font-medium mb-2 capitalize leading-tight'

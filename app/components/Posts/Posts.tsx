@@ -16,6 +16,7 @@ export interface PostsProps {
 const Posts = ({ posts, users, randomPostsCount = 10 }: PostsProps) => {
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [postsData, setPostsData] = useState<ExtendedPostData[] | null>(null);
+  const [isUserListOpened, setIsUserListOpened] = useState(false);
 
   useEffect(() => {
     if (!posts) {
@@ -51,6 +52,11 @@ const Posts = ({ posts, users, randomPostsCount = 10 }: PostsProps) => {
     setSelectedUserId(userId);
   };
 
+  const handleUserListOpenChange = (isOpened: boolean) => {
+    console.log('isOpened', isOpened);
+    setIsUserListOpened(isOpened);
+  };
+
   return (
     <div className={classNames('lg:flex lg:flex-row-reverse lg:gap-8')}>
       {users && (
@@ -64,14 +70,15 @@ const Posts = ({ posts, users, randomPostsCount = 10 }: PostsProps) => {
           <p className={classNames('mb-2')}>Filter posts by user:</p>
           <UsersList
             users={users}
-            onUserChange={handleUserChange}
             disableOptionText="Random posts"
+            onUserChange={handleUserChange}
+            onDropdownOpenChange={handleUserListOpenChange}
           />
         </div>
       )}
       {postsData && (
         <div className={classNames('flex-1')}>
-          <PostsList posts={postsData} />
+          <PostsList posts={postsData} disableInteraction={isUserListOpened} />
         </div>
       )}
     </div>

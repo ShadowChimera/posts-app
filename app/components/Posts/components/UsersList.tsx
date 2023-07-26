@@ -13,20 +13,26 @@ export interface UsersListProps {
   users: UserData[];
   disableOptionText?: string;
   onUserChange?: (userId: number | null) => void;
+  onDropdownOpenChange?: (isOpened: boolean) => void;
 }
 
 const UsersList = ({
   users,
-  onUserChange,
   disableOptionText,
+  onUserChange,
+  onDropdownOpenChange,
 }: UsersListProps) => {
   const handleUserChange = (userId: string | number | null) => {
     userId = userId ? Number(userId) : null;
     onUserChange?.(userId);
   };
 
+  const handleOpenChange = (isOpened: boolean) => {
+    onDropdownOpenChange?.(isOpened);
+  };
+
   return (
-    <Select onValueChange={handleUserChange}>
+    <Select onValueChange={handleUserChange} onOpenChange={handleOpenChange}>
       <SelectTrigger>
         <SelectValue placeholder="Select user" />
       </SelectTrigger>
