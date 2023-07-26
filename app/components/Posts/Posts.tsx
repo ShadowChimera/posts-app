@@ -6,6 +6,7 @@ import { ExtendedPostData } from './types';
 import UsersList from './components/UsersList';
 import PostsList from './components/PostsList';
 import { shuffle } from '@/utils';
+import { LoadingIcon } from '@/components/icons';
 
 export interface PostsProps {
   posts?: PostData[];
@@ -76,10 +77,12 @@ const Posts = ({ posts, users, randomPostsCount = 10 }: PostsProps) => {
           />
         </div>
       )}
-      {postsData && (
+      {postsData ? (
         <div className={classNames('flex-1')}>
           <PostsList posts={postsData} disableInteraction={isUserListOpened} />
         </div>
+      ) : (
+        <LoadingIcon className={classNames('mx-auto')} />
       )}
     </div>
   );
